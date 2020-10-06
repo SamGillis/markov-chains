@@ -2,6 +2,7 @@
 
 from random import choice
 import string
+import random
 
 
 def open_and_read_file(file_path):
@@ -61,15 +62,28 @@ def make_text(chains):
 
     words = []
 
-    # your code goes here
+    # Get random key to start with bigram
+    bigram = random.choice(list(chains))
+    #Add bigram (key)
+    words.append(bigram[0])
+    words.append(bigram[1])
+    
+    #Perform if bigram is a key in chains (i.e., ('a', 'house', 'hi'))
+    while bigram in chains.keys():
+        next_word = random.choice(chains[bigram])
 
+        #Add new word to list
+        words.append(next_word) 
+        bigram = (words[-2], words[-1])
+        
+    #Return string of list without comma and space added
     return ' '.join(words)
 
 
 input_path = 'green-eggs.txt'
 
 # Open the file and turn it into one long string
-input_text = open_and_read_file(input_path)
+input_text = open_and_read_file('green-eggs.txt')
 
 # Get a Markov chain
 chains = make_chains(input_text)
