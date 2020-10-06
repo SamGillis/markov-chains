@@ -1,6 +1,7 @@
 """Generate Markov text from text files."""
 
 from random import choice
+import string
 
 
 def open_and_read_file(file_path):
@@ -10,9 +11,12 @@ def open_and_read_file(file_path):
     the file's contents as one string of text.
     """
 
-    # your code goes here
+    # 
+    the_file = open(file_path)
+    the_file = the_file.read()
+    the_file = the_file.replace('\n', ' ')
 
-    return 'Contents of your file as one long string'
+    return the_file
 
 
 def make_chains(text_string):
