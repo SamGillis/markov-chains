@@ -64,6 +64,9 @@ def make_text(chains):
 
     # Get random key to start with bigram
     bigram = random.choice(list(chains))
+    while bigram[0][0].upper() != bigram[0][0]:
+        bigram = random.choice(list(chains))
+
     #Add bigram (key)
     words.append(bigram[0])
     words.append(bigram[1])
