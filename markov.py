@@ -11,7 +11,7 @@ def open_and_read_file(file_path):
     the file's contents as one string of text.
     """
 
-    # 
+    # Name variable to open file
     the_file = open(file_path)
     the_file = the_file.read()
     the_file = the_file.replace('\n', ' ')
@@ -43,10 +43,15 @@ def make_chains(text_string):
         >>> chains[('there','juanita')]
         [None]
     """
-
+    #Set variable chains to empty dictionary 
     chains = {}
-
-    # your code goes here
+    #Set variable to a list which contains text_strings without space
+    words = text_string.split(' ')
+    #Look through list of word
+    for i in range(len(words)-3):
+        #Creates key
+        chains[(words[i], words[i+1])] = (chains.get((words[i], words[i+1]), []))
+        chains[(words[i], words[i+1])].append(words[i+2])
 
     return chains
 
