@@ -3,7 +3,7 @@
 from random import choice
 import string
 import random
-
+import sys
 
 def open_and_read_file(file_path):
     """Take file path as string; return text as string.
@@ -83,7 +83,7 @@ def make_text(chains):
 input_path = 'green-eggs.txt'
 
 # Open the file and turn it into one long string
-input_text = open_and_read_file('green-eggs.txt')
+input_text = open_and_read_file(sys.argv[1])
 
 # Get a Markov chain
 chains = make_chains(input_text)
