@@ -19,7 +19,7 @@ def open_and_read_file(file_path):
     return the_file
 
 
-def make_chains(text_string):
+def make_chains(text_string, n):
     """Take input text as string; return dictionary of Markov chains.
 
     A chain will be a key that consists of a tuple of (word1, word2)
@@ -48,15 +48,19 @@ def make_chains(text_string):
     #Set variable to a list which contains text_strings without space
     words = text_string.split(' ')
     #Look through list of word
-    for i in range(len(words)-3):
+    for i in range(len(words)-(n+1)):
+        key = []
         #Creates key
-        chains[(words[i], words[i+1])] = (chains.get((words[i], words[i+1]), []))
-        chains[(words[i], words[i+1])].append(words[i+2])
+        for y in range(n):
+            key.append(words[i + y])
+        key = tuple(key)
+        chains[key] = (chains.get(key, []))
+        chains[key].append(words[i+n])
 
     return chains
 
 
-def make_text(chains):
+def make_text(chains, n):
     """Return text from chains."""
 
     words = []
@@ -67,16 +71,16 @@ def make_text(chains):
         bigram = random.choice(list(chains))
 
     #Add bigram (key)
-    words.append(bigram[0])
-    words.append(bigram[1])
+    for i in range(n):
+        words.append(bigram[i])
     
     #Perform if bigram is a key in chains (i.e., ('a', 'house', 'hi'))
-    while bigram in chains.keys():
+    while bigram in list(chains):
         next_word = random.choice(chains[bigram])
 
         #Add new word to list
         words.append(next_word) 
-        bigram = (words[-2], words[-1])
+        bigram = tuple(words[-n:])
         
     #Return string of list without comma and space added
     return ' '.join(words)
@@ -85,12 +89,13 @@ def make_text(chains):
 input_path = 'green-eggs.txt'
 
 # Open the file and turn it into one long string
-input_text = open_and_read_file(sys.argv[1]) + open_and_read_file(sys.argv[2])
+input_text = open_and_read_file(sys.argv[1]) #+ open_and_read_file(sys.argv[2])
+n = int(sys.argv[2])
 
 # Get a Markov chain
-chains = make_chains(input_text)
+chains = make_chains(input_text, n)
 
 # Produce random text
-random_text = make_text(chains)
+random_text = make_text(chains, n)
 
 print(random_text)
